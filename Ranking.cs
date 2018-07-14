@@ -9,10 +9,10 @@ using Terraria;
 using TerrariaApi.Server;
 using TShockAPI;
 using Wolfje.Plugins.SEconomy;
-using Wolfje.Plugins.SEconomy.Journal;
 
 namespace Chireiden.SEconomy.Ranking
 {
+    [ApiVersion(2, 1)]
     public class Ranking : TerrariaPlugin
     {
         private Config config;
@@ -29,54 +29,76 @@ namespace Chireiden.SEconomy.Ranking
 
         public override void Initialize()
         {
-            ReadConfig("tshock\\ranking.json", Lang.DefaultConfig(), out config);
+            ReadConfig("tshock\\ranking.json", Lang.DefaultConfig(false), out config);
+            var ir = 0;
             foreach (var level in config.Levels)
             {
                 Levels[level.TsGroup] = level;
+                foreach (var i in level.AllowedItems)
+                {
+                    var itembanName = Terraria.Lang.GetItemNameValue(i);
+                    if (!TShock.Itembans.ItemIsBanned(itembanName))
+                    {
+                        ir++;
+                        TShock.Itembans.AddNewBan(itembanName);
+                    }
+                }
             }
 
+            Console.WriteLine(config.Messages["Load"], Levels.Count, ir);
+
             Commands.ChatCommands.Add(new Command(config.ViewLevelPermission, ViewLevel,
-                config.ViewLevelCommand.Contains(" ")
+                !config.ViewLevelCommand.Contains(" ")
                     ? config.ViewLevelCommand
                     : throw new ArgumentException("Command contains space")));
-            Commands.ChatCommands.Add(new Command(config.RankPermission, LevelUp, config.LevelUpCommand.Contains(" ")
+            Commands.ChatCommands.Add(new Command(config.RankPermission, LevelUp, !config.LevelUpCommand.Contains(" ")
                 ? config.LevelUpCommand
                 : throw new ArgumentException("Command contains space")));
             Commands.ChatCommands.Add(new Command(config.RankPermission, ClassSelect,
-                config.ClassSelectCommand.Contains(" ")
+                !config.ClassSelectCommand.Contains(" ")
                     ? config.ClassSelectCommand
                     : throw new ArgumentException("Command contains space")));
         }
 
-        private static Dictionary<string, Level> Levels = new Dictionary<string, Level>();
+        private static readonly Dictionary<string, Level> Levels = new Dictionary<string, Level>();
 
         private void ViewLevel(CommandArgs args)
         {
+            Rank(args.Player, args.Parameters, false);
         }
 
         private void LevelUp(CommandArgs args)
         {
+            Rank(args.Player, args.Parameters, true);
         }
 
         private void ClassSelect(CommandArgs args)
         {
+            Rank(args.Player, args.Parameters, true);
         }
 
-        private void Rank(TSPlayer p, string[] args, bool tryLevel)
+        private void Rank(TSPlayer p, List<string> args, bool tryLevel)
         {
             if (p.HasPermission(config.RankExcludePermission))
             {
                 p.SendInfoMessage(config.Messages["RankExclude"]);
             }
 
-            var nextLevel = config.Levels.Where(l => l.Parents.ContainsKey(p.Group.Name));
+            LazyLoad(p);
+            var nextLevel = GetChildren(p.Group.Name);
             switch (nextLevel.Count())
             {
                 case 0:
                 {
+                    if (GetLevel(p.Group.Name) != null)
+                    {
+                        p.SendInfoMessage(config.Messages["MaxLevel"]);
+                        return;
+                    }
+
                     var nl = config.Levels.Single(l => l.Parents.Count == 0);
                     p.SendInfoMessage(tryLevel
-                        ? Move(p, nl, Levels[p.Group.Name])
+                        ? Move(p, nl, GetLevel(p.Group.Name))
                             ? config.Messages["RankStart"]
                             : config.Messages["RankFail"]
                         : config.Messages["NotInRank"]);
@@ -84,16 +106,24 @@ namespace Chireiden.SEconomy.Ranking
                 }
                 case 1:
                 {
-                    p.SendInfoMessage(tryLevel
-                        ? Move(p, nextLevel.First(), Levels[p.Group.Name])
-                            ? config.Messages["RankStart"]
-                            : config.Messages["RankFail"]
-                        : InfoPlayer(p, nextLevel.First(), Levels[p.Group.Name], config.Messages["ViewLevel"]));
+                    if (tryLevel)
+                    {
+                        if (!Move(p, nextLevel.First(), GetLevel(p.Group.Name)))
+                        {
+                            p.SendInfoMessage(config.Messages["RankFail"]);
+                        }
+                    }
+                    else
+                    {
+                        p.SendInfoMessage(InfoPlayer(p, nextLevel.First(), GetLevel(p.Group.Name),
+                            config.Messages["ViewLevel"]));
+                    }
+
                     break;
                 }
                 default:
                 {
-                    if (args.Length > 0)
+                    if (args.Count > 0)
                     {
                         var selected = nextLevel.Where(l => l.DisplayName == args[0]);
                         if (!selected.Any())
@@ -107,7 +137,20 @@ namespace Chireiden.SEconomy.Ranking
                         }
                         else
                         {
+                            if (!Move(p, selected.First(), GetLevel(p.Group.Name)))
+                            {
+                                p.SendInfoMessage(config.Messages["RankFail"]);
+                            }
                         }
+                    }
+                    else
+                    {
+                        var currentClass = p.Group.Name.Split('_')[0];
+                        p.SendInfoMessage(InfoPlayer(p, null, GetLevel(p.Group.Name),
+                            config.Messages["ViewLevel"]));
+                        p.SendInfoMessage(string.Join("\r\n", nextLevel.Select(l =>
+                            string.Format(config.Messages["ClassFormat"], l.DisplayName,
+                                l.Description, l.Parents[currentClass]))));
                     }
 
                     break;
@@ -115,18 +158,99 @@ namespace Chireiden.SEconomy.Ranking
             }
         }
 
+        private Level GetLevel(string groupName)
+        {
+            if (Levels.ContainsKey(groupName.Split('_')[0]))
+            {
+                return Levels[groupName.Split('_')[0]];
+            }
+
+            return null;
+        }
+
+        private IEnumerable<Level> GetChildren(string groupName)
+        {
+            var currentClass = groupName.Split('_')[0];
+            var ret = new List<Level>();
+            foreach (var kvp in Levels)
+            {
+                if (kvp.Value.Parents.Keys.Contains(currentClass))
+                {
+                    ret.Add(kvp.Value);
+                }
+            }
+
+            return ret;
+        }
+
+        private void LazyLoad(TSPlayer tsPlayer)
+        {
+            var children = GetChildren(tsPlayer.Group.Name);
+            foreach (var level in children)
+            {
+                var currentGroupName = tsPlayer.Group.Name.Split('_');
+                if (level.Parents.Count == 1)
+                {
+                    currentGroupName[0] = level.TsGroup;
+                }
+                else
+                {
+                    currentGroupName[0] = level.TsGroup + "_" + currentGroupName[0];
+                }
+
+                var nextLevel = string.Join("_", currentGroupName);
+                if (TShock.Groups.GroupExists(nextLevel))
+                {
+                    break;
+                }
+
+                TShock.Groups.AddGroup(nextLevel, tsPlayer.Group.Name, "", level.ChatColor);
+                foreach (var valueAllowedItem in level.AllowedItems)
+                {
+                    var itembanName = Terraria.Lang.GetItemNameValue(valueAllowedItem);
+                    if (!TShock.Itembans.ItemIsBanned(itembanName))
+                    {
+                        TShock.Itembans.AddNewBan(itembanName);
+                    }
+
+                    TShock.Itembans.AllowGroup(itembanName, nextLevel);
+                }
+            }
+        }
+
+        internal static string Color2String(Color c)
+        {
+            return $"{c.R:D3},{c.G:D3},{c.B:D3}";
+        }
+
         private bool Move(TSPlayer p, Level newLevel, Level oldLevel)
         {
-            IBankAccount playerAccount = SEconomyPlugin.Instance.GetBankAccount(p);
+            var playerAccount = SEconomyPlugin.Instance.GetBankAccount(p);
             if (playerAccount == null || playerAccount.IsAccountEnabled == false ||
-                !Money.TryParse(newLevel.Parents[oldLevel.TsGroup], out var commandCost) ||
-                playerAccount.Balance < commandCost)
+                !Money.TryParse(newLevel.Parents[oldLevel.TsGroup], out var commandCost))
             {
                 return false;
             }
 
+            if (playerAccount.Balance < commandCost)
+            {
+                p.SendErrorMessage(config.Messages["MoreXpRequired"]);
+                return false;
+            }
+
             playerAccount.Balance -= commandCost;
-            p.Group = TShock.Groups.GetGroupByName(newLevel.TsGroup);
+            var currentGroupName = p.Group.Name.Split('_');
+            if (newLevel.Parents.Count == 1)
+            {
+                currentGroupName[0] = newLevel.TsGroup;
+            }
+            else
+            {
+                currentGroupName[0] = newLevel.TsGroup + "_" + currentGroupName[0];
+            }
+
+            var nextLevel = string.Join("_", currentGroupName);
+            p.Group = TShock.Groups.GetGroupByName(nextLevel);
             newLevel.LevelUpCommand.ForEach(f => PLI(TSPlayer.Server, f));
             newLevel.LevelUpInvoke.ForEach(f => PLI(p, f));
             return true;
@@ -134,7 +258,13 @@ namespace Chireiden.SEconomy.Ranking
 
         private static string InfoPlayer(TSPlayer p, Level nl, Level ol, string s)
         {
-            return string.Format(s, p.Name, nl.DisplayName, ol.DisplayName);
+            var playerAccount = SEconomyPlugin.Instance.GetBankAccount(p);
+            if (playerAccount == null || playerAccount.IsAccountEnabled == false)
+            {
+                return string.Format(s, ol.DisplayName, nl?.DisplayName ?? "", "");
+            }
+
+            return string.Format(s, ol.DisplayName, nl?.DisplayName ?? "", playerAccount.Balance);
         }
 
         private static void ReadConfig<TConfig>(string path, TConfig defaultConfig, out TConfig config)

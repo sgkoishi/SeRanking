@@ -6,6 +6,7 @@ namespace Chireiden.SEconomy.Ranking
 {
     public static class Lang
     {
+        private static string Beginner = "Beginner";
         private static string Adventurer = "Adventurer";
         private static string Fighter = "Fighter";
         private static string Novice = "Novice";
@@ -31,25 +32,37 @@ namespace Chireiden.SEconomy.Ranking
         private static string Slayer = "Slayer";
         private static string Inquisitor = "Inquisitor";
         private static string Warlord = "Warlord";
-        private static readonly string _classSelectCommand = "class";
-        private static readonly string _levelUpCommand = "level";
-        private static readonly string _rankExcludePermission = "chireiden.rank.exclude";
-        private static readonly string _rankPermission = "chireiden.rank.use";
-        private static readonly string _viewLevelCommand = "vl";
-        private static readonly string _viewLevelPermission = "chireiden.rank.viewlevel";
+        private static string _classSelectCommand = "class";
+        private static string _levelUpCommand = "level";
+        private static string _rankExcludePermission = "chireiden.rank.exclude";
+        private static string _rankPermission = "chireiden.rank.use";
+        private static string _viewLevelCommand = "vl";
+        private static string _viewLevelPermission = "chireiden.rank.viewlevel";
 
         private static Dictionary<string, string> _message = new Dictionary<string, string>
         {
-            {"RankExclude", "You can not use the ranking system."},
+            {"RankExclude", "[SeRanking] You can not use the ranking system."},
             {
                 "NotInRank",
-                $"You're not in the ranking system, use {TShock.Config.CommandSpecifier}{_levelUpCommand} to join."
+                $"[SeRanking] You're not in the ranking system, use {TShock.Config.CommandSpecifier}{_levelUpCommand} to join."
             },
-            {"RankStart", "You've join the ranking system."},
-            {"ViewLevel", "Current Level: {0} | Next Level: {1} | Current XP: {2}"},
-            {"RankFail", "Ranking fail."},
-            {"NoMatchClass", "No class match your input."},
-            {"MultMatchClass", "Multiple classes match your input."},
+            {"RankStart", "[SeRanking] You've join the ranking system."},
+            {"ViewLevel", "[SeRanking] Current Level: {0} | Next Level: {1} | Current XP: {2}"},
+            {"RankFail", "[SeRanking] Ranking fail."},
+            {"NoMatchClass", "[SeRanking] No class match your input."},
+            {"MultMatchClass", "[SeRanking] Multiple classes match your input."},
+            {"ClassFormat", "* {0}: {1}. Cost {2}."},
+            {"Load", "[SeRanking] Load {0} levels and {1} item restrictions."},
+            {
+                "UseClassInstead",
+                $"[SeRanking] It's time to choose a class! Use {TShock.Config.CommandSpecifier}{_classSelectCommand} instead."
+            },
+            {
+                "UseLevelInstead",
+                $"[SeRanking] No class to choose! Use {TShock.Config.CommandSpecifier}{_levelUpCommand} instead."
+            },
+            {"MaxLevel", "[SeRanking] You've reach Max Level!"},
+            {"MoreXpRequired", "[SeRanking] You need more XP!"}
         };
 
         /// <summary>
@@ -57,6 +70,7 @@ namespace Chireiden.SEconomy.Ranking
         /// </summary>
         public static void Init()
         {
+            Beginner = "萌新";
             Adventurer = "冒险者";
             Fighter = "战士";
             Novice = "法师";
@@ -82,7 +96,34 @@ namespace Chireiden.SEconomy.Ranking
             Slayer = "占星术士";
             Inquisitor = "死灵法师";
             Warlord = "守望者";
-            _message = new Dictionary<string, string>();
+            _classSelectCommand = "转职";
+            _levelUpCommand = "升级";
+            _rankExcludePermission = "chireiden.rank.exclude";
+            _rankPermission = "chireiden.rank.use";
+            _viewLevelCommand = "等级";
+            _viewLevelPermission = "chireiden.rank.viewlevel";
+            _message = new Dictionary<string, string>
+            {
+                {"RankExclude", "[SeRanking] 你无法使用等级系统。"},
+                {
+                    "NotInRank",
+                    $"[SeRanking] 你尚未进入等级系统，使用{TShock.Config.CommandSpecifier}{_levelUpCommand}即可进入。"
+                },
+                {"RankStart", "[SeRanking] 你进入了等级系统。"},
+                {"ViewLevel", "[SeRanking] 当前等级: {0} | 下个等级: {1} | 当前经验: {2}"},
+                {"RankFail", "[SeRanking] 等级系统错误。"},
+                {"NoMatchClass", "[SeRanking] 无法匹配转职目标。"},
+                {"MultMatchClass", "[SeRanking] 匹配到多个转职目标。"},
+                {"ClassFormat", "* {0}: {1}。消耗 {2}"},
+                {"Load", "[SeRanking] 已加载 {0} 个等级和 {1} 个物品限制。"},
+                {
+                    "UseClassInstead",
+                    $"[SeRanking] 该选择一个职业来转职了! 使用{TShock.Config.CommandSpecifier}{_classSelectCommand} 进行转职。"
+                },
+                {"UseLevelInstead", $"[SeRanking] 没有可以转职的职业！使用{TShock.Config.CommandSpecifier}{_levelUpCommand} 升级。"},
+                {"MaxLevel", "[SeRanking] 你已经到达满级了！"},
+                {"MoreXpRequired", "[SeRanking] 你需要更多的经验！"}
+            };
         }
 
         public static Config DefaultConfig(bool en = true)
@@ -91,6 +132,7 @@ namespace Chireiden.SEconomy.Ranking
             {
                 Init();
             }
+
             return new Config
             {
                 ClassSelectCommand = _classSelectCommand,
@@ -105,203 +147,237 @@ namespace Chireiden.SEconomy.Ranking
                 {
                     new Level
                     {
-                        ChatColor = Color.Gray,
-                        Cost = 0,
+                        ChatColor = Ranking.Color2String(Color.Gray),
                         TsGroup = "default",
-                        DisplayName = Adventurer,
-                        Prefix = Adventurer
+                        DisplayName = Beginner,
+                        Description = "Description for Beginner",
+                        Prefix = Beginner,
+                        Parents = new Dictionary<string, string>()
                     },
                     new Level
                     {
-                        ChatColor = Color.Red,
+                        ChatColor = Ranking.Color2String(Color.White),
+                        TsGroup = "adventurer",
+                        DisplayName = Adventurer,
+                        Description = "Description for Adventurer",
+                        Prefix = Adventurer,
+                        Parents = new Dictionary<string, string> {{"default", "100"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
                         TsGroup = nameof(Fighter),
                         DisplayName = Fighter,
+                        Description = "Description for Fighter",
                         Prefix = Fighter,
                         Parents = new Dictionary<string, string> {{"adventurer", "10000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Blue,
+                        ChatColor = Ranking.Color2String(Color.Blue),
                         TsGroup = nameof(Novice),
                         DisplayName = Novice,
+                        Description = "Description for Novice",
                         Prefix = Novice,
                         Parents = new Dictionary<string, string> {{"adventurer", "10000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Yellow,
+                        ChatColor = Ranking.Color2String(Color.Yellow),
                         TsGroup = nameof(Recruit),
                         DisplayName = Recruit,
+                        Description = "Description for Recruit",
                         Prefix = Recruit,
                         Parents = new Dictionary<string, string> {{"adventurer", "10000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Green,
+                        ChatColor = Ranking.Color2String(Color.Green),
                         TsGroup = nameof(Scout),
                         DisplayName = Scout,
+                        Description = "Description for Scout",
                         Prefix = Scout,
                         Parents = new Dictionary<string, string> {{"adventurer", "10000"}}
                     },
 
                     new Level
                     {
-                        ChatColor = Color.Yellow,
+                        ChatColor = Ranking.Color2String(Color.Yellow),
                         TsGroup = nameof(Cleric),
                         DisplayName = Cleric,
+                        Description = "Description for Cleric",
                         Prefix = Cleric,
                         Parents = new Dictionary<string, string> {{"recruit", "1000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Yellow,
+                        ChatColor = Ranking.Color2String(Color.Yellow),
                         TsGroup = nameof(Guard),
                         DisplayName = Guard,
+                        Description = "Description for Guard",
                         Prefix = Guard,
                         Parents = new Dictionary<string, string> {{"recruit", "1000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Red,
+                        ChatColor = Ranking.Color2String(Color.Red),
                         TsGroup = nameof(Mercenary),
                         DisplayName = Mercenary,
+                        Description = "Description for Mercenary",
                         Prefix = Mercenary,
                         Parents = new Dictionary<string, string> {{"fighter", "1000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Blue,
+                        ChatColor = Ranking.Color2String(Color.Blue),
                         TsGroup = nameof(Monk),
                         DisplayName = Monk,
+                        Description = "Description for Monk",
                         Prefix = Monk,
                         Parents = new Dictionary<string, string> {{"novice", "1000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Green,
+                        ChatColor = Ranking.Color2String(Color.Green),
                         TsGroup = nameof(Rogue),
                         DisplayName = Rogue,
+                        Description = "Description for Rogue",
                         Prefix = Rogue,
                         Parents = new Dictionary<string, string> {{"scout", "1000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Blue,
+                        ChatColor = Ranking.Color2String(Color.Blue),
                         TsGroup = nameof(Sage),
                         DisplayName = Sage,
+                        Description = "Description for Sage",
                         Prefix = Sage,
                         Parents = new Dictionary<string, string> {{"novice", "1000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Green,
+                        ChatColor = Ranking.Color2String(Color.Green),
                         TsGroup = nameof(Shaman),
                         DisplayName = Shaman,
+                        Description = "Description for Shaman",
                         Prefix = Shaman,
                         Parents = new Dictionary<string, string> {{"scout", "1000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Red,
+                        ChatColor = Ranking.Color2String(Color.Red),
                         TsGroup = nameof(Wizard),
                         DisplayName = Wizard,
+                        Description = "Description for Wizard",
                         Prefix = Wizard,
                         Parents = new Dictionary<string, string> {{"fighter", "1000000"}}
                     },
 
                     new Level
                     {
-                        ChatColor = Color.Green,
+                        ChatColor = Ranking.Color2String(Color.Green),
                         TsGroup = nameof(Assassin),
                         DisplayName = Assassin,
+                        Description = "Description for Assassin",
                         Prefix = Assassin,
                         Parents = new Dictionary<string, string> {{"rogue", "10000000"}, {"monk", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Red,
+                        ChatColor = Ranking.Color2String(Color.Red),
                         TsGroup = nameof(Berserker),
                         DisplayName = Berserker,
+                        Description = "Description for Berserker",
                         Prefix = Berserker,
                         Parents = new Dictionary<string, string> {{"mercenary", "10000000"}, {"guard", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Blue,
+                        ChatColor = Ranking.Color2String(Color.Blue),
                         TsGroup = nameof(Champion),
                         DisplayName = Champion,
+                        Description = "Description for Champion",
                         Prefix = Champion,
                         Parents = new Dictionary<string, string> {{"mercenary", "10000000"}, {"monk", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Green,
+                        ChatColor = Ranking.Color2String(Color.Green),
                         TsGroup = nameof(Deathknight),
                         DisplayName = Deathknight,
+                        Description = "Description for Deathknight",
                         Prefix = Deathknight,
                         Parents = new Dictionary<string, string> {{"mercenary", "10000000"}, {"rogue", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Blue,
+                        ChatColor = Ranking.Color2String(Color.Blue),
                         TsGroup = nameof(Hierarch),
                         DisplayName = Hierarch,
+                        Description = "Description for Hierarch",
                         Prefix = Hierarch,
                         Parents = new Dictionary<string, string> {{"sage", "10000000"}, {"cleric", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Red,
+                        ChatColor = Ranking.Color2String(Color.Red),
                         TsGroup = nameof(Inquisitor),
                         DisplayName = Inquisitor,
+                        Description = "Description for Inquisitor",
                         Prefix = Inquisitor,
                         Parents = new Dictionary<string, string> {{"wizard", "10000000"}, {"shaman", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Yellow,
+                        ChatColor = Ranking.Color2String(Color.Yellow),
                         TsGroup = nameof(Paladin),
                         DisplayName = Paladin,
+                        Description = "Description for Paladin",
                         Prefix = Paladin,
                         Parents = new Dictionary<string, string> {{"monk", "10000000"}, {"guard", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Red,
+                        ChatColor = Ranking.Color2String(Color.Red),
                         TsGroup = nameof(Pyromaniac),
                         DisplayName = Pyromaniac,
+                        Description = "Description for Pyromaniac",
                         Prefix = Pyromaniac,
                         Parents = new Dictionary<string, string> {{"wizard", "10000000"}, {"sage", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Blue,
+                        ChatColor = Ranking.Color2String(Color.Blue),
                         TsGroup = nameof(Slayer),
                         DisplayName = Slayer,
+                        Description = "Description for Slayer",
                         Prefix = Slayer,
                         Parents = new Dictionary<string, string> {{"shaman", "10000000"}, {"sage", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Yellow,
+                        ChatColor = Ranking.Color2String(Color.Yellow),
                         TsGroup = nameof(Summoner),
                         DisplayName = Summoner,
+                        Description = "Description for Summoner",
                         Prefix = Summoner,
                         Parents = new Dictionary<string, string> {{"wizard", "10000000"}, {"cleric", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Green,
+                        ChatColor = Ranking.Color2String(Color.Green),
                         TsGroup = nameof(Warden),
                         DisplayName = Warden,
+                        Description = "Description for Warden",
                         Prefix = Warden,
                         Parents = new Dictionary<string, string> {{"shaman", "10000000"}, {"cleric", "10000000"}}
                     },
                     new Level
                     {
-                        ChatColor = Color.Yellow,
+                        ChatColor = Ranking.Color2String(Color.Yellow),
                         TsGroup = nameof(Warlord),
                         DisplayName = Warlord,
+                        Description = "Description for Warlord",
                         Prefix = Warlord,
                         Parents = new Dictionary<string, string> {{"rogue", "10000000"}, {"guard", "10000000"}}
                     }
