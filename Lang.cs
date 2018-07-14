@@ -125,12 +125,13 @@ namespace Chireiden.SEconomy.Ranking
                 {"MoreXpRequired", "[SeRanking] 你需要更多的经验！"}
             };
         }
+
         /// <summary>
-        /// Get a preset config.
+        ///     Get a preset config.
         /// </summary>
         public static Config DefaultConfig()
         {
-            bool English = true;
+            var English = true;
             if (!English)
             {
                 InitChinese();
@@ -150,6 +151,8 @@ namespace Chireiden.SEconomy.Ranking
                 // This level system is from Estiah(http://www.estiah.com) and fan-made game Linodas(http://www.linodas.com)
                 Levels = new[]
                 {
+                    #region Basic levels
+
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Gray),
@@ -184,6 +187,9 @@ namespace Chireiden.SEconomy.Ranking
                         Parents = new Dictionary<string, string> {{"adventurer" + (i - 1), "100"}}
                     },
 
+                    #endregion
+
+                    #region Tire one
 
                     new Level
                     {
@@ -318,6 +324,9 @@ namespace Chireiden.SEconomy.Ranking
                         Parents = new Dictionary<string, string> {{"scout" + (i - 1), "10000"}}
                     },
 
+                    #endregion
+
+                    #region Tire two
 
                     new Level
                     {
@@ -672,6 +681,9 @@ namespace Chireiden.SEconomy.Ranking
                         Parents = new Dictionary<string, string> {{"wizard" + (i - 1), "1000000"}}
                     },
 
+                    #endregion
+
+                    #region Tire three
 
                     new Level
                     {
@@ -1333,6 +1345,8 @@ namespace Chireiden.SEconomy.Ranking
                         Prefix = $"{Warlord}[{i}]",
                         Parents = new Dictionary<string, string> {{"warlord" + (i - 1), "10000000"}}
                     }
+
+                    #endregion
                 }
             };
         }

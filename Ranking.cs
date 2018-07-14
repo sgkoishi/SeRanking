@@ -360,6 +360,7 @@ namespace Chireiden.SEconomy.Ranking
                     {
                         TShock.Utils.SendLogs($"{player.Name} executed: /{text.Remove(0, 1)}.", Color.Red);
                     }
+
                     try
                     {
                         cmd.CommandDelegate(new CommandArgs(text.Remove(0, 1), false, player, args));
