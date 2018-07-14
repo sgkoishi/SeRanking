@@ -68,7 +68,7 @@ namespace Chireiden.SEconomy.Ranking
         /// <summary>
         ///     This function can be removed if you don't care/want other language.
         /// </summary>
-        public static void Init()
+        private static void InitChinese()
         {
             Beginner = "萌新";
             Adventurer = "冒险者";
@@ -125,12 +125,15 @@ namespace Chireiden.SEconomy.Ranking
                 {"MoreXpRequired", "[SeRanking] 你需要更多的经验！"}
             };
         }
-
-        public static Config DefaultConfig(bool en = true)
+        /// <summary>
+        /// Get a preset config.
+        /// </summary>
+        public static Config DefaultConfig()
         {
-            if (!en)
+            bool English = true;
+            if (!English)
             {
-                Init();
+                InitChinese();
             }
 
             var i = 0;
@@ -188,7 +191,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Fighter) + (i = 1),
-                        DisplayName = $"{Fighter}[{i}]",
+                        DisplayName = $"{Fighter}",
                         Description = "Description for Fighter " + i,
                         Prefix = $"{Fighter}[{i}]",
                         Parents = new Dictionary<string, string> {{"adventurer2", "10000"}}
@@ -199,7 +202,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Novice) + i,
-                        DisplayName = $"{Novice}[{i}]",
+                        DisplayName = $"{Novice}",
                         Description = "Description for Novice " + i,
                         Prefix = $"{Novice}[{i}]",
                         Parents = new Dictionary<string, string> {{"adventurer2", "10000"}}
@@ -210,7 +213,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Recruit) + i,
-                        DisplayName = $"{Recruit}[{i}]",
+                        DisplayName = $"{Recruit}",
                         Description = "Description for Recruit " + i,
                         Prefix = $"{Recruit}[{i}]",
                         Parents = new Dictionary<string, string> {{"adventurer2", "10000"}}
@@ -221,7 +224,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Scout) + i,
-                        DisplayName = $"{Scout}[{i}]",
+                        DisplayName = $"{Scout}",
                         Description = "Description for Scout " + i,
                         Prefix = $"{Scout}[{i}]",
                         Parents = new Dictionary<string, string> {{"adventurer2", "10000"}}
@@ -322,7 +325,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Cleric) + (i = 1),
-                        DisplayName = $"{Cleric}[{i}]",
+                        DisplayName = $"{Cleric}",
                         Description = "Description for Cleric " + i,
                         Prefix = $"{Cleric}[{i}]",
                         Parents = new Dictionary<string, string> {{"recruit3", "1000000"}}
@@ -333,7 +336,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Guard) + i,
-                        DisplayName = $"{Guard}[{i}]",
+                        DisplayName = $"{Guard}",
                         Description = "Description for Guard " + i,
                         Prefix = $"{Guard}[{i}]",
                         Parents = new Dictionary<string, string> {{"recruit3", "1000000"}}
@@ -344,7 +347,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Mercenary) + i,
-                        DisplayName = $"{Mercenary}[{i}]",
+                        DisplayName = $"{Mercenary}",
                         Description = "Description for Mercenary " + i,
                         Prefix = $"{Mercenary}[{i}]",
                         Parents = new Dictionary<string, string> {{"fighter3", "1000000"}}
@@ -355,7 +358,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Monk) + i,
-                        DisplayName = $"{Monk}[{i}]",
+                        DisplayName = $"{Monk}",
                         Description = "Description for Monk " + i,
                         Prefix = $"{Monk}[{i}]",
                         Parents = new Dictionary<string, string> {{"novice3", "1000000"}}
@@ -366,7 +369,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Rogue) + i,
-                        DisplayName = $"{Rogue}[{i}]",
+                        DisplayName = $"{Rogue}",
                         Description = "Description for Rogue " + i,
                         Prefix = $"{Rogue}[{i}]",
                         Parents = new Dictionary<string, string> {{"scout3", "1000000"}}
@@ -377,7 +380,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Sage) + i,
-                        DisplayName = $"{Sage}[{i}]",
+                        DisplayName = $"{Sage}",
                         Description = "Description for Sage " + i,
                         Prefix = $"{Sage}[{i}]",
                         Parents = new Dictionary<string, string> {{"novice3", "1000000"}}
@@ -388,7 +391,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Shaman) + i,
-                        DisplayName = $"{Shaman}[{i}]",
+                        DisplayName = $"{Shaman}",
                         Description = "Description for Shaman " + i,
                         Prefix = $"{Shaman}[{i}]",
                         Parents = new Dictionary<string, string> {{"scout3", "1000000"}}
@@ -399,7 +402,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Wizard) + i,
-                        DisplayName = $"{Wizard}[{i}]",
+                        DisplayName = $"{Wizard}",
                         Description = "Description for Wizard " + i,
                         Prefix = $"{Wizard}[{i}]",
                         Parents = new Dictionary<string, string> {{"fighter3", "1000000"}}
@@ -676,7 +679,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Assassin) + (i = 1),
-                        DisplayName = $"{Assassin}[{i}]",
+                        DisplayName = $"{Assassin}",
                         Description = "Description for Assassin " + i,
                         Prefix = $"{Assassin}[{i}]",
                         Parents = new Dictionary<string, string> {{"rogue4", "10000000"}, {"monk4", "10000000"}}
@@ -687,7 +690,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Berserker) + i,
-                        DisplayName = $"{Berserker}[{i}]",
+                        DisplayName = $"{Berserker}",
                         Description = "Description for Berserker " + i,
                         Prefix = $"{Berserker}[{i}]",
                         Parents = new Dictionary<string, string> {{"mercenary4", "10000000"}, {"guard4", "10000000"}}
@@ -698,7 +701,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Champion) + i,
-                        DisplayName = $"{Champion}[{i}]",
+                        DisplayName = $"{Champion}",
                         Description = "Description for Champion " + i,
                         Prefix = $"{Champion}[{i}]",
                         Parents = new Dictionary<string, string> {{"mercenary4", "10000000"}, {"monk4", "10000000"}}
@@ -709,7 +712,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Deathknight) + i,
-                        DisplayName = $"{Deathknight}[{i}]",
+                        DisplayName = $"{Deathknight}",
                         Description = "Description for Deathknight " + i,
                         Prefix = $"{Deathknight}[{i}]",
                         Parents = new Dictionary<string, string> {{"mercenary4", "10000000"}, {"rogue4", "10000000"}}
@@ -720,7 +723,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Hierarch) + i,
-                        DisplayName = $"{Hierarch}[{i}]",
+                        DisplayName = $"{Hierarch}",
                         Description = "Description for Hierarch " + i,
                         Prefix = $"{Hierarch}[{i}]",
                         Parents = new Dictionary<string, string> {{"sage4", "10000000"}, {"cleric4", "10000000"}}
@@ -731,7 +734,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Inquisitor) + i,
-                        DisplayName = $"{Inquisitor}[{i}]",
+                        DisplayName = $"{Inquisitor}",
                         Description = "Description for Inquisitor " + i,
                         Prefix = $"{Inquisitor}[{i}]",
                         Parents = new Dictionary<string, string> {{"wizard4", "10000000"}, {"shaman4", "10000000"}}
@@ -742,7 +745,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Paladin) + i,
-                        DisplayName = $"{Paladin}[{i}]",
+                        DisplayName = $"{Paladin}",
                         Description = "Description for Paladin " + i,
                         Prefix = $"{Paladin}[{i}]",
                         Parents = new Dictionary<string, string> {{"monk4", "10000000"}, {"guard4", "10000000"}}
@@ -753,7 +756,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Pyromaniac) + i,
-                        DisplayName = $"{Pyromaniac}[{i}]",
+                        DisplayName = $"{Pyromaniac}",
                         Description = "Description for Pyromaniac " + i,
                         Prefix = $"{Pyromaniac}[{i}]",
                         Parents = new Dictionary<string, string> {{"wizard4", "10000000"}, {"sage4", "10000000"}}
@@ -764,7 +767,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Slayer) + i,
-                        DisplayName = $"{Slayer}[{i}]",
+                        DisplayName = $"{Slayer}",
                         Description = "Description for Slayer " + i,
                         Prefix = $"{Slayer}[{i}]",
                         Parents = new Dictionary<string, string> {{"shaman4", "10000000"}, {"sage4", "10000000"}}
@@ -775,7 +778,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Summoner) + i,
-                        DisplayName = $"{Summoner}[{i}]",
+                        DisplayName = $"{Summoner}",
                         Description = "Description for Summoner " + i,
                         Prefix = $"{Summoner}[{i}]",
                         Parents = new Dictionary<string, string> {{"wizard4", "10000000"}, {"cleric4", "10000000"}}
@@ -786,7 +789,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Warden) + i,
-                        DisplayName = $"{Warden}[{i}]",
+                        DisplayName = $"{Warden}",
                         Description = "Description for Warden " + i,
                         Prefix = $"{Warden}[{i}]",
                         Parents = new Dictionary<string, string> {{"shaman4", "10000000"}, {"cleric4", "10000000"}}
@@ -797,7 +800,7 @@ namespace Chireiden.SEconomy.Ranking
                         LevelUpCommand = new[]
                             {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = nameof(Warlord) + i,
-                        DisplayName = $"{Warlord}[{i}]",
+                        DisplayName = $"{Warlord}",
                         Description = "Description for Warlord " + i,
                         Prefix = $"{Warlord}[{i}]",
                         Parents = new Dictionary<string, string> {{"rogue4", "10000000"}, {"guard4", "10000000"}}
