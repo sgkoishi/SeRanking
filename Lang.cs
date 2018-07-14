@@ -133,6 +133,8 @@ namespace Chireiden.SEconomy.Ranking
                 Init();
             }
 
+            var i = 0;
+
             return new Config
             {
                 ClassSelectCommand = _classSelectCommand,
@@ -148,6 +150,8 @@ namespace Chireiden.SEconomy.Ranking
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Gray),
+                        LevelUpCommand = new[]
+                            {"/firework {0}", "/bc {0} spend {3} XP to become {2}!"},
                         TsGroup = "default",
                         DisplayName = Beginner,
                         Description = "Description for Beginner",
@@ -157,229 +161,1174 @@ namespace Chireiden.SEconomy.Ranking
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.White),
-                        TsGroup = "adventurer",
-                        DisplayName = Adventurer,
-                        Description = "Description for Adventurer",
-                        Prefix = Adventurer,
+                        LevelUpCommand = new[]
+                            {"/firework {0}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Adventurer) + ++i,
+                        DisplayName = $"{Adventurer}[{i}]",
+                        Description = "Description for Adventurer " + i,
+                        Prefix = $"{Adventurer}[{i}]",
                         Parents = new Dictionary<string, string> {{"default", "100"}}
                     },
                     new Level
                     {
+                        ChatColor = Ranking.Color2String(Color.White),
+                        LevelUpCommand = new[]
+                            {"/firework {0}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Adventurer) + ++i,
+                        DisplayName = $"{Adventurer}[{i}]",
+                        Description = "Description for Adventurer " + i,
+                        Prefix = $"{Adventurer}[{i}]",
+                        Parents = new Dictionary<string, string> {{"adventurer" + (i - 1), "100"}}
+                    },
+
+
+                    new Level
+                    {
                         ChatColor = Ranking.Color2String(Color.Red),
-                        TsGroup = nameof(Fighter),
-                        DisplayName = Fighter,
-                        Description = "Description for Fighter",
-                        Prefix = Fighter,
-                        Parents = new Dictionary<string, string> {{"adventurer", "10000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Fighter) + (i = 1),
+                        DisplayName = $"{Fighter}[{i}]",
+                        Description = "Description for Fighter " + i,
+                        Prefix = $"{Fighter}[{i}]",
+                        Parents = new Dictionary<string, string> {{"adventurer2", "10000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Blue),
-                        TsGroup = nameof(Novice),
-                        DisplayName = Novice,
-                        Description = "Description for Novice",
-                        Prefix = Novice,
-                        Parents = new Dictionary<string, string> {{"adventurer", "10000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Novice) + i,
+                        DisplayName = $"{Novice}[{i}]",
+                        Description = "Description for Novice " + i,
+                        Prefix = $"{Novice}[{i}]",
+                        Parents = new Dictionary<string, string> {{"adventurer2", "10000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Yellow),
-                        TsGroup = nameof(Recruit),
-                        DisplayName = Recruit,
-                        Description = "Description for Recruit",
-                        Prefix = Recruit,
-                        Parents = new Dictionary<string, string> {{"adventurer", "10000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Recruit) + i,
+                        DisplayName = $"{Recruit}[{i}]",
+                        Description = "Description for Recruit " + i,
+                        Prefix = $"{Recruit}[{i}]",
+                        Parents = new Dictionary<string, string> {{"adventurer2", "10000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Green),
-                        TsGroup = nameof(Scout),
-                        DisplayName = Scout,
-                        Description = "Description for Scout",
-                        Prefix = Scout,
-                        Parents = new Dictionary<string, string> {{"adventurer", "10000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Scout) + i,
+                        DisplayName = $"{Scout}[{i}]",
+                        Description = "Description for Scout " + i,
+                        Prefix = $"{Scout}[{i}]",
+                        Parents = new Dictionary<string, string> {{"adventurer2", "10000"}}
                     },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Fighter) + ++i,
+                        DisplayName = $"{Fighter}[{i}]",
+                        Description = "Description for Fighter " + i,
+                        Prefix = $"{Fighter}[{i}]",
+                        Parents = new Dictionary<string, string> {{"fighter" + (i - 1), "10000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Novice) + i,
+                        DisplayName = $"{Novice}[{i}]",
+                        Description = "Description for Novice " + i,
+                        Prefix = $"{Novice}[{i}]",
+                        Parents = new Dictionary<string, string> {{"novice" + (i - 1), "10000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Recruit) + i,
+                        DisplayName = $"{Recruit}[{i}]",
+                        Description = "Description for Recruit " + i,
+                        Prefix = $"{Recruit}[{i}]",
+                        Parents = new Dictionary<string, string> {{"recruit" + (i - 1), "10000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Scout) + i,
+                        DisplayName = $"{Scout}[{i}]",
+                        Description = "Description for Scout " + i,
+                        Prefix = $"{Scout}[{i}]",
+                        Parents = new Dictionary<string, string> {{"scout" + (i - 1), "10000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Fighter) + ++i,
+                        DisplayName = $"{Fighter}[{i}]",
+                        Description = "Description for Fighter " + i,
+                        Prefix = $"{Fighter}[{i}]",
+                        Parents = new Dictionary<string, string> {{"fighter" + (i - 1), "10000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Novice) + i,
+                        DisplayName = $"{Novice}[{i}]",
+                        Description = "Description for Novice " + i,
+                        Prefix = $"{Novice}[{i}]",
+                        Parents = new Dictionary<string, string> {{"novice" + (i - 1), "10000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Recruit) + i,
+                        DisplayName = $"{Recruit}[{i}]",
+                        Description = "Description for Recruit " + i,
+                        Prefix = $"{Recruit}[{i}]",
+                        Parents = new Dictionary<string, string> {{"recruit" + (i - 1), "10000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Scout) + i,
+                        DisplayName = $"{Scout}[{i}]",
+                        Description = "Description for Scout " + i,
+                        Prefix = $"{Scout}[{i}]",
+                        Parents = new Dictionary<string, string> {{"scout" + (i - 1), "10000"}}
+                    },
+
 
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Yellow),
-                        TsGroup = nameof(Cleric),
-                        DisplayName = Cleric,
-                        Description = "Description for Cleric",
-                        Prefix = Cleric,
-                        Parents = new Dictionary<string, string> {{"recruit", "1000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Cleric) + (i = 1),
+                        DisplayName = $"{Cleric}[{i}]",
+                        Description = "Description for Cleric " + i,
+                        Prefix = $"{Cleric}[{i}]",
+                        Parents = new Dictionary<string, string> {{"recruit3", "1000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Yellow),
-                        TsGroup = nameof(Guard),
-                        DisplayName = Guard,
-                        Description = "Description for Guard",
-                        Prefix = Guard,
-                        Parents = new Dictionary<string, string> {{"recruit", "1000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Guard) + i,
+                        DisplayName = $"{Guard}[{i}]",
+                        Description = "Description for Guard " + i,
+                        Prefix = $"{Guard}[{i}]",
+                        Parents = new Dictionary<string, string> {{"recruit3", "1000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Red),
-                        TsGroup = nameof(Mercenary),
-                        DisplayName = Mercenary,
-                        Description = "Description for Mercenary",
-                        Prefix = Mercenary,
-                        Parents = new Dictionary<string, string> {{"fighter", "1000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Mercenary) + i,
+                        DisplayName = $"{Mercenary}[{i}]",
+                        Description = "Description for Mercenary " + i,
+                        Prefix = $"{Mercenary}[{i}]",
+                        Parents = new Dictionary<string, string> {{"fighter3", "1000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Blue),
-                        TsGroup = nameof(Monk),
-                        DisplayName = Monk,
-                        Description = "Description for Monk",
-                        Prefix = Monk,
-                        Parents = new Dictionary<string, string> {{"novice", "1000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Monk) + i,
+                        DisplayName = $"{Monk}[{i}]",
+                        Description = "Description for Monk " + i,
+                        Prefix = $"{Monk}[{i}]",
+                        Parents = new Dictionary<string, string> {{"novice3", "1000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Green),
-                        TsGroup = nameof(Rogue),
-                        DisplayName = Rogue,
-                        Description = "Description for Rogue",
-                        Prefix = Rogue,
-                        Parents = new Dictionary<string, string> {{"scout", "1000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Rogue) + i,
+                        DisplayName = $"{Rogue}[{i}]",
+                        Description = "Description for Rogue " + i,
+                        Prefix = $"{Rogue}[{i}]",
+                        Parents = new Dictionary<string, string> {{"scout3", "1000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Blue),
-                        TsGroup = nameof(Sage),
-                        DisplayName = Sage,
-                        Description = "Description for Sage",
-                        Prefix = Sage,
-                        Parents = new Dictionary<string, string> {{"novice", "1000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Sage) + i,
+                        DisplayName = $"{Sage}[{i}]",
+                        Description = "Description for Sage " + i,
+                        Prefix = $"{Sage}[{i}]",
+                        Parents = new Dictionary<string, string> {{"novice3", "1000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Green),
-                        TsGroup = nameof(Shaman),
-                        DisplayName = Shaman,
-                        Description = "Description for Shaman",
-                        Prefix = Shaman,
-                        Parents = new Dictionary<string, string> {{"scout", "1000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Shaman) + i,
+                        DisplayName = $"{Shaman}[{i}]",
+                        Description = "Description for Shaman " + i,
+                        Prefix = $"{Shaman}[{i}]",
+                        Parents = new Dictionary<string, string> {{"scout3", "1000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Red),
-                        TsGroup = nameof(Wizard),
-                        DisplayName = Wizard,
-                        Description = "Description for Wizard",
-                        Prefix = Wizard,
-                        Parents = new Dictionary<string, string> {{"fighter", "1000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Wizard) + i,
+                        DisplayName = $"{Wizard}[{i}]",
+                        Description = "Description for Wizard " + i,
+                        Prefix = $"{Wizard}[{i}]",
+                        Parents = new Dictionary<string, string> {{"fighter3", "1000000"}}
                     },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Cleric) + ++i,
+                        DisplayName = $"{Cleric}[{i}]",
+                        Description = "Description for Cleric " + i,
+                        Prefix = $"{Cleric}[{i}]",
+                        Parents = new Dictionary<string, string> {{"cleric" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Guard) + i,
+                        DisplayName = $"{Guard}[{i}]",
+                        Description = "Description for Guard " + i,
+                        Prefix = $"{Guard}[{i}]",
+                        Parents = new Dictionary<string, string> {{"guard" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Mercenary) + i,
+                        DisplayName = $"{Mercenary}[{i}]",
+                        Description = "Description for Mercenary " + i,
+                        Prefix = $"{Mercenary}[{i}]",
+                        Parents = new Dictionary<string, string> {{"mercenary" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Monk) + i,
+                        DisplayName = $"{Monk}[{i}]",
+                        Description = "Description for Monk " + i,
+                        Prefix = $"{Monk}[{i}]",
+                        Parents = new Dictionary<string, string> {{"monk" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Rogue) + i,
+                        DisplayName = $"{Rogue}[{i}]",
+                        Description = "Description for Rogue " + i,
+                        Prefix = $"{Rogue}[{i}]",
+                        Parents = new Dictionary<string, string> {{"rogue" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Sage) + i,
+                        DisplayName = $"{Sage}[{i}]",
+                        Description = "Description for Sage " + i,
+                        Prefix = $"{Sage}[{i}]",
+                        Parents = new Dictionary<string, string> {{"sage" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Shaman) + i,
+                        DisplayName = $"{Shaman}[{i}]",
+                        Description = "Description for Shaman " + i,
+                        Prefix = $"{Shaman}[{i}]",
+                        Parents = new Dictionary<string, string> {{"shaman" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Wizard) + i,
+                        DisplayName = $"{Wizard}[{i}]",
+                        Description = "Description for Wizard " + i,
+                        Prefix = $"{Wizard}[{i}]",
+                        Parents = new Dictionary<string, string> {{"wizard" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Cleric) + ++i,
+                        DisplayName = $"{Cleric}[{i}]",
+                        Description = "Description for Cleric " + i,
+                        Prefix = $"{Cleric}[{i}]",
+                        Parents = new Dictionary<string, string> {{"cleric" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Guard) + i,
+                        DisplayName = $"{Guard}[{i}]",
+                        Description = "Description for Guard " + i,
+                        Prefix = $"{Guard}[{i}]",
+                        Parents = new Dictionary<string, string> {{"guard" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Mercenary) + i,
+                        DisplayName = $"{Mercenary}[{i}]",
+                        Description = "Description for Mercenary " + i,
+                        Prefix = $"{Mercenary}[{i}]",
+                        Parents = new Dictionary<string, string> {{"mercenary" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Monk) + i,
+                        DisplayName = $"{Monk}[{i}]",
+                        Description = "Description for Monk " + i,
+                        Prefix = $"{Monk}[{i}]",
+                        Parents = new Dictionary<string, string> {{"monk" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Rogue) + i,
+                        DisplayName = $"{Rogue}[{i}]",
+                        Description = "Description for Rogue " + i,
+                        Prefix = $"{Rogue}[{i}]",
+                        Parents = new Dictionary<string, string> {{"rogue" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Sage) + i,
+                        DisplayName = $"{Sage}[{i}]",
+                        Description = "Description for Sage " + i,
+                        Prefix = $"{Sage}[{i}]",
+                        Parents = new Dictionary<string, string> {{"sage" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Shaman) + i,
+                        DisplayName = $"{Shaman}[{i}]",
+                        Description = "Description for Shaman " + i,
+                        Prefix = $"{Shaman}[{i}]",
+                        Parents = new Dictionary<string, string> {{"shaman" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Wizard) + i,
+                        DisplayName = $"{Wizard}[{i}]",
+                        Description = "Description for Wizard " + i,
+                        Prefix = $"{Wizard}[{i}]",
+                        Parents = new Dictionary<string, string> {{"wizard" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Cleric) + ++i,
+                        DisplayName = $"{Cleric}[{i}]",
+                        Description = "Description for Cleric " + i,
+                        Prefix = $"{Cleric}[{i}]",
+                        Parents = new Dictionary<string, string> {{"cleric" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Guard) + i,
+                        DisplayName = $"{Guard}[{i}]",
+                        Description = "Description for Guard " + i,
+                        Prefix = $"{Guard}[{i}]",
+                        Parents = new Dictionary<string, string> {{"guard" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Mercenary) + i,
+                        DisplayName = $"{Mercenary}[{i}]",
+                        Description = "Description for Mercenary " + i,
+                        Prefix = $"{Mercenary}[{i}]",
+                        Parents = new Dictionary<string, string> {{"mercenary" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Monk) + i,
+                        DisplayName = $"{Monk}[{i}]",
+                        Description = "Description for Monk " + i,
+                        Prefix = $"{Monk}[{i}]",
+                        Parents = new Dictionary<string, string> {{"monk" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Rogue) + i,
+                        DisplayName = $"{Rogue}[{i}]",
+                        Description = "Description for Rogue " + i,
+                        Prefix = $"{Rogue}[{i}]",
+                        Parents = new Dictionary<string, string> {{"rogue" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Sage) + i,
+                        DisplayName = $"{Sage}[{i}]",
+                        Description = "Description for Sage " + i,
+                        Prefix = $"{Sage}[{i}]",
+                        Parents = new Dictionary<string, string> {{"sage" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Shaman) + i,
+                        DisplayName = $"{Shaman}[{i}]",
+                        Description = "Description for Shaman " + i,
+                        Prefix = $"{Shaman}[{i}]",
+                        Parents = new Dictionary<string, string> {{"shaman" + (i - 1), "1000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Wizard) + i,
+                        DisplayName = $"{Wizard}[{i}]",
+                        Description = "Description for Wizard " + i,
+                        Prefix = $"{Wizard}[{i}]",
+                        Parents = new Dictionary<string, string> {{"wizard" + (i - 1), "1000000"}}
+                    },
+
 
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Green),
-                        TsGroup = nameof(Assassin),
-                        DisplayName = Assassin,
-                        Description = "Description for Assassin",
-                        Prefix = Assassin,
-                        Parents = new Dictionary<string, string> {{"rogue", "10000000"}, {"monk", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Assassin) + (i = 1),
+                        DisplayName = $"{Assassin}[{i}]",
+                        Description = "Description for Assassin " + i,
+                        Prefix = $"{Assassin}[{i}]",
+                        Parents = new Dictionary<string, string> {{"rogue4", "10000000"}, {"monk4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Red),
-                        TsGroup = nameof(Berserker),
-                        DisplayName = Berserker,
-                        Description = "Description for Berserker",
-                        Prefix = Berserker,
-                        Parents = new Dictionary<string, string> {{"mercenary", "10000000"}, {"guard", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Berserker) + i,
+                        DisplayName = $"{Berserker}[{i}]",
+                        Description = "Description for Berserker " + i,
+                        Prefix = $"{Berserker}[{i}]",
+                        Parents = new Dictionary<string, string> {{"mercenary4", "10000000"}, {"guard4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Blue),
-                        TsGroup = nameof(Champion),
-                        DisplayName = Champion,
-                        Description = "Description for Champion",
-                        Prefix = Champion,
-                        Parents = new Dictionary<string, string> {{"mercenary", "10000000"}, {"monk", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Champion) + i,
+                        DisplayName = $"{Champion}[{i}]",
+                        Description = "Description for Champion " + i,
+                        Prefix = $"{Champion}[{i}]",
+                        Parents = new Dictionary<string, string> {{"mercenary4", "10000000"}, {"monk4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Green),
-                        TsGroup = nameof(Deathknight),
-                        DisplayName = Deathknight,
-                        Description = "Description for Deathknight",
-                        Prefix = Deathknight,
-                        Parents = new Dictionary<string, string> {{"mercenary", "10000000"}, {"rogue", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Deathknight) + i,
+                        DisplayName = $"{Deathknight}[{i}]",
+                        Description = "Description for Deathknight " + i,
+                        Prefix = $"{Deathknight}[{i}]",
+                        Parents = new Dictionary<string, string> {{"mercenary4", "10000000"}, {"rogue4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Blue),
-                        TsGroup = nameof(Hierarch),
-                        DisplayName = Hierarch,
-                        Description = "Description for Hierarch",
-                        Prefix = Hierarch,
-                        Parents = new Dictionary<string, string> {{"sage", "10000000"}, {"cleric", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Hierarch) + i,
+                        DisplayName = $"{Hierarch}[{i}]",
+                        Description = "Description for Hierarch " + i,
+                        Prefix = $"{Hierarch}[{i}]",
+                        Parents = new Dictionary<string, string> {{"sage4", "10000000"}, {"cleric4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Red),
-                        TsGroup = nameof(Inquisitor),
-                        DisplayName = Inquisitor,
-                        Description = "Description for Inquisitor",
-                        Prefix = Inquisitor,
-                        Parents = new Dictionary<string, string> {{"wizard", "10000000"}, {"shaman", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Inquisitor) + i,
+                        DisplayName = $"{Inquisitor}[{i}]",
+                        Description = "Description for Inquisitor " + i,
+                        Prefix = $"{Inquisitor}[{i}]",
+                        Parents = new Dictionary<string, string> {{"wizard4", "10000000"}, {"shaman4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Yellow),
-                        TsGroup = nameof(Paladin),
-                        DisplayName = Paladin,
-                        Description = "Description for Paladin",
-                        Prefix = Paladin,
-                        Parents = new Dictionary<string, string> {{"monk", "10000000"}, {"guard", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Paladin) + i,
+                        DisplayName = $"{Paladin}[{i}]",
+                        Description = "Description for Paladin " + i,
+                        Prefix = $"{Paladin}[{i}]",
+                        Parents = new Dictionary<string, string> {{"monk4", "10000000"}, {"guard4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Red),
-                        TsGroup = nameof(Pyromaniac),
-                        DisplayName = Pyromaniac,
-                        Description = "Description for Pyromaniac",
-                        Prefix = Pyromaniac,
-                        Parents = new Dictionary<string, string> {{"wizard", "10000000"}, {"sage", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Pyromaniac) + i,
+                        DisplayName = $"{Pyromaniac}[{i}]",
+                        Description = "Description for Pyromaniac " + i,
+                        Prefix = $"{Pyromaniac}[{i}]",
+                        Parents = new Dictionary<string, string> {{"wizard4", "10000000"}, {"sage4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Blue),
-                        TsGroup = nameof(Slayer),
-                        DisplayName = Slayer,
-                        Description = "Description for Slayer",
-                        Prefix = Slayer,
-                        Parents = new Dictionary<string, string> {{"shaman", "10000000"}, {"sage", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Slayer) + i,
+                        DisplayName = $"{Slayer}[{i}]",
+                        Description = "Description for Slayer " + i,
+                        Prefix = $"{Slayer}[{i}]",
+                        Parents = new Dictionary<string, string> {{"shaman4", "10000000"}, {"sage4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Yellow),
-                        TsGroup = nameof(Summoner),
-                        DisplayName = Summoner,
-                        Description = "Description for Summoner",
-                        Prefix = Summoner,
-                        Parents = new Dictionary<string, string> {{"wizard", "10000000"}, {"cleric", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Summoner) + i,
+                        DisplayName = $"{Summoner}[{i}]",
+                        Description = "Description for Summoner " + i,
+                        Prefix = $"{Summoner}[{i}]",
+                        Parents = new Dictionary<string, string> {{"wizard4", "10000000"}, {"cleric4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Green),
-                        TsGroup = nameof(Warden),
-                        DisplayName = Warden,
-                        Description = "Description for Warden",
-                        Prefix = Warden,
-                        Parents = new Dictionary<string, string> {{"shaman", "10000000"}, {"cleric", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Warden) + i,
+                        DisplayName = $"{Warden}[{i}]",
+                        Description = "Description for Warden " + i,
+                        Prefix = $"{Warden}[{i}]",
+                        Parents = new Dictionary<string, string> {{"shaman4", "10000000"}, {"cleric4", "10000000"}}
                     },
                     new Level
                     {
                         ChatColor = Ranking.Color2String(Color.Yellow),
-                        TsGroup = nameof(Warlord),
-                        DisplayName = Warlord,
-                        Description = "Description for Warlord",
-                        Prefix = Warlord,
-                        Parents = new Dictionary<string, string> {{"rogue", "10000000"}, {"guard", "10000000"}}
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Warlord) + i,
+                        DisplayName = $"{Warlord}[{i}]",
+                        Description = "Description for Warlord " + i,
+                        Prefix = $"{Warlord}[{i}]",
+                        Parents = new Dictionary<string, string> {{"rogue4", "10000000"}, {"guard4", "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Assassin) + ++i,
+                        DisplayName = $"{Assassin}[{i}]",
+                        Description = "Description for Assassin " + i,
+                        Prefix = $"{Assassin}[{i}]",
+                        Parents = new Dictionary<string, string> {{"assassin" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Berserker) + i,
+                        DisplayName = $"{Berserker}[{i}]",
+                        Description = "Description for Berserker " + i,
+                        Prefix = $"{Berserker}[{i}]",
+                        Parents = new Dictionary<string, string> {{"berserker" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Champion) + i,
+                        DisplayName = $"{Champion}[{i}]",
+                        Description = "Description for Champion " + i,
+                        Prefix = $"{Champion}[{i}]",
+                        Parents = new Dictionary<string, string> {{"champion" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Deathknight) + i,
+                        DisplayName = $"{Deathknight}[{i}]",
+                        Description = "Description for Deathknight " + i,
+                        Prefix = $"{Deathknight}[{i}]",
+                        Parents = new Dictionary<string, string> {{"deathknight" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Hierarch) + i,
+                        DisplayName = $"{Hierarch}[{i}]",
+                        Description = "Description for Hierarch " + i,
+                        Prefix = $"{Hierarch}[{i}]",
+                        Parents = new Dictionary<string, string> {{"hierarch" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Inquisitor) + i,
+                        DisplayName = $"{Inquisitor}[{i}]",
+                        Description = "Description for Inquisitor " + i,
+                        Prefix = $"{Inquisitor}[{i}]",
+                        Parents = new Dictionary<string, string> {{"inquisitor" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Paladin) + i,
+                        DisplayName = $"{Paladin}[{i}]",
+                        Description = "Description for Paladin " + i,
+                        Prefix = $"{Paladin}[{i}]",
+                        Parents = new Dictionary<string, string> {{"paladin" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Pyromaniac) + i,
+                        DisplayName = $"{Pyromaniac}[{i}]",
+                        Description = "Description for Pyromaniac " + i,
+                        Prefix = $"{Pyromaniac}[{i}]",
+                        Parents = new Dictionary<string, string> {{"pyromaniac" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Slayer) + i,
+                        DisplayName = $"{Slayer}[{i}]",
+                        Description = "Description for Slayer " + i,
+                        Prefix = $"{Slayer}[{i}]",
+                        Parents = new Dictionary<string, string> {{"slayer" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Summoner) + i,
+                        DisplayName = $"{Summoner}[{i}]",
+                        Description = "Description for Summoner " + i,
+                        Prefix = $"{Summoner}[{i}]",
+                        Parents = new Dictionary<string, string> {{"summoner" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Warden) + i,
+                        DisplayName = $"{Warden}[{i}]",
+                        Description = "Description for Warden " + i,
+                        Prefix = $"{Warden}[{i}]",
+                        Parents = new Dictionary<string, string> {{"warden" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Warlord) + i,
+                        DisplayName = $"{Warlord}[{i}]",
+                        Description = "Description for Warlord " + i,
+                        Prefix = $"{Warlord}[{i}]",
+                        Parents = new Dictionary<string, string> {{"warlord" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Assassin) + ++i,
+                        DisplayName = $"{Assassin}[{i}]",
+                        Description = "Description for Assassin " + i,
+                        Prefix = $"{Assassin}[{i}]",
+                        Parents = new Dictionary<string, string> {{"assassin" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Berserker) + i,
+                        DisplayName = $"{Berserker}[{i}]",
+                        Description = "Description for Berserker " + i,
+                        Prefix = $"{Berserker}[{i}]",
+                        Parents = new Dictionary<string, string> {{"berserker" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Champion) + i,
+                        DisplayName = $"{Champion}[{i}]",
+                        Description = "Description for Champion " + i,
+                        Prefix = $"{Champion}[{i}]",
+                        Parents = new Dictionary<string, string> {{"champion" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Deathknight) + i,
+                        DisplayName = $"{Deathknight}[{i}]",
+                        Description = "Description for Deathknight " + i,
+                        Prefix = $"{Deathknight}[{i}]",
+                        Parents = new Dictionary<string, string> {{"deathknight" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Hierarch) + i,
+                        DisplayName = $"{Hierarch}[{i}]",
+                        Description = "Description for Hierarch " + i,
+                        Prefix = $"{Hierarch}[{i}]",
+                        Parents = new Dictionary<string, string> {{"hierarch" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Inquisitor) + i,
+                        DisplayName = $"{Inquisitor}[{i}]",
+                        Description = "Description for Inquisitor " + i,
+                        Prefix = $"{Inquisitor}[{i}]",
+                        Parents = new Dictionary<string, string> {{"inquisitor" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Paladin) + i,
+                        DisplayName = $"{Paladin}[{i}]",
+                        Description = "Description for Paladin " + i,
+                        Prefix = $"{Paladin}[{i}]",
+                        Parents = new Dictionary<string, string> {{"paladin" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Pyromaniac) + i,
+                        DisplayName = $"{Pyromaniac}[{i}]",
+                        Description = "Description for Pyromaniac " + i,
+                        Prefix = $"{Pyromaniac}[{i}]",
+                        Parents = new Dictionary<string, string> {{"pyromaniac" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Slayer) + i,
+                        DisplayName = $"{Slayer}[{i}]",
+                        Description = "Description for Slayer " + i,
+                        Prefix = $"{Slayer}[{i}]",
+                        Parents = new Dictionary<string, string> {{"slayer" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Summoner) + i,
+                        DisplayName = $"{Summoner}[{i}]",
+                        Description = "Description for Summoner " + i,
+                        Prefix = $"{Summoner}[{i}]",
+                        Parents = new Dictionary<string, string> {{"summoner" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Warden) + i,
+                        DisplayName = $"{Warden}[{i}]",
+                        Description = "Description for Warden " + i,
+                        Prefix = $"{Warden}[{i}]",
+                        Parents = new Dictionary<string, string> {{"warden" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Warlord) + i,
+                        DisplayName = $"{Warlord}[{i}]",
+                        Description = "Description for Warlord " + i,
+                        Prefix = $"{Warlord}[{i}]",
+                        Parents = new Dictionary<string, string> {{"warlord" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Assassin) + ++i,
+                        DisplayName = $"{Assassin}[{i}]",
+                        Description = "Description for Assassin " + i,
+                        Prefix = $"{Assassin}[{i}]",
+                        Parents = new Dictionary<string, string> {{"assassin" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Berserker) + i,
+                        DisplayName = $"{Berserker}[{i}]",
+                        Description = "Description for Berserker " + i,
+                        Prefix = $"{Berserker}[{i}]",
+                        Parents = new Dictionary<string, string> {{"berserker" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Champion) + i,
+                        DisplayName = $"{Champion}[{i}]",
+                        Description = "Description for Champion " + i,
+                        Prefix = $"{Champion}[{i}]",
+                        Parents = new Dictionary<string, string> {{"champion" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Deathknight) + i,
+                        DisplayName = $"{Deathknight}[{i}]",
+                        Description = "Description for Deathknight " + i,
+                        Prefix = $"{Deathknight}[{i}]",
+                        Parents = new Dictionary<string, string> {{"deathknight" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Hierarch) + i,
+                        DisplayName = $"{Hierarch}[{i}]",
+                        Description = "Description for Hierarch " + i,
+                        Prefix = $"{Hierarch}[{i}]",
+                        Parents = new Dictionary<string, string> {{"hierarch" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Inquisitor) + i,
+                        DisplayName = $"{Inquisitor}[{i}]",
+                        Description = "Description for Inquisitor " + i,
+                        Prefix = $"{Inquisitor}[{i}]",
+                        Parents = new Dictionary<string, string> {{"inquisitor" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Paladin) + i,
+                        DisplayName = $"{Paladin}[{i}]",
+                        Description = "Description for Paladin " + i,
+                        Prefix = $"{Paladin}[{i}]",
+                        Parents = new Dictionary<string, string> {{"paladin" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Pyromaniac) + i,
+                        DisplayName = $"{Pyromaniac}[{i}]",
+                        Description = "Description for Pyromaniac " + i,
+                        Prefix = $"{Pyromaniac}[{i}]",
+                        Parents = new Dictionary<string, string> {{"pyromaniac" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Slayer) + i,
+                        DisplayName = $"{Slayer}[{i}]",
+                        Description = "Description for Slayer " + i,
+                        Prefix = $"{Slayer}[{i}]",
+                        Parents = new Dictionary<string, string> {{"slayer" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Summoner) + i,
+                        DisplayName = $"{Summoner}[{i}]",
+                        Description = "Description for Summoner " + i,
+                        Prefix = $"{Summoner}[{i}]",
+                        Parents = new Dictionary<string, string> {{"summoner" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Warden) + i,
+                        DisplayName = $"{Warden}[{i}]",
+                        Description = "Description for Warden " + i,
+                        Prefix = $"{Warden}[{i}]",
+                        Parents = new Dictionary<string, string> {{"warden" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Warlord) + i,
+                        DisplayName = $"{Warlord}[{i}]",
+                        Description = "Description for Warlord " + i,
+                        Prefix = $"{Warlord}[{i}]",
+                        Parents = new Dictionary<string, string> {{"warlord" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Assassin) + ++i,
+                        DisplayName = $"{Assassin}[{i}]",
+                        Description = "Description for Assassin " + i,
+                        Prefix = $"{Assassin}[{i}]",
+                        Parents = new Dictionary<string, string> {{"assassin" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Berserker) + i,
+                        DisplayName = $"{Berserker}[{i}]",
+                        Description = "Description for Berserker " + i,
+                        Prefix = $"{Berserker}[{i}]",
+                        Parents = new Dictionary<string, string> {{"berserker" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Champion) + i,
+                        DisplayName = $"{Champion}[{i}]",
+                        Description = "Description for Champion " + i,
+                        Prefix = $"{Champion}[{i}]",
+                        Parents = new Dictionary<string, string> {{"champion" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Deathknight) + i,
+                        DisplayName = $"{Deathknight}[{i}]",
+                        Description = "Description for Deathknight " + i,
+                        Prefix = $"{Deathknight}[{i}]",
+                        Parents = new Dictionary<string, string> {{"deathknight" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Hierarch) + i,
+                        DisplayName = $"{Hierarch}[{i}]",
+                        Description = "Description for Hierarch " + i,
+                        Prefix = $"{Hierarch}[{i}]",
+                        Parents = new Dictionary<string, string> {{"hierarch" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Inquisitor) + i,
+                        DisplayName = $"{Inquisitor}[{i}]",
+                        Description = "Description for Inquisitor " + i,
+                        Prefix = $"{Inquisitor}[{i}]",
+                        Parents = new Dictionary<string, string> {{"inquisitor" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Paladin) + i,
+                        DisplayName = $"{Paladin}[{i}]",
+                        Description = "Description for Paladin " + i,
+                        Prefix = $"{Paladin}[{i}]",
+                        Parents = new Dictionary<string, string> {{"paladin" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Red),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Red)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Pyromaniac) + i,
+                        DisplayName = $"{Pyromaniac}[{i}]",
+                        Description = "Description for Pyromaniac " + i,
+                        Prefix = $"{Pyromaniac}[{i}]",
+                        Parents = new Dictionary<string, string> {{"pyromaniac" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Blue),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Blue)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Slayer) + i,
+                        DisplayName = $"{Slayer}[{i}]",
+                        Description = "Description for Slayer " + i,
+                        Prefix = $"{Slayer}[{i}]",
+                        Parents = new Dictionary<string, string> {{"slayer" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Summoner) + i,
+                        DisplayName = $"{Summoner}[{i}]",
+                        Description = "Description for Summoner " + i,
+                        Prefix = $"{Summoner}[{i}]",
+                        Parents = new Dictionary<string, string> {{"summoner" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Green),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Green)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Warden) + i,
+                        DisplayName = $"{Warden}[{i}]",
+                        Description = "Description for Warden " + i,
+                        Prefix = $"{Warden}[{i}]",
+                        Parents = new Dictionary<string, string> {{"warden" + (i - 1), "10000000"}}
+                    },
+                    new Level
+                    {
+                        ChatColor = Ranking.Color2String(Color.Yellow),
+                        LevelUpCommand = new[]
+                            {$"/firework {{0}} {nameof(Color.Yellow)}", "/bc {0} spend {3} XP to become {2}!"},
+                        TsGroup = nameof(Warlord) + i,
+                        DisplayName = $"{Warlord}[{i}]",
+                        Description = "Description for Warlord " + i,
+                        Prefix = $"{Warlord}[{i}]",
+                        Parents = new Dictionary<string, string> {{"warlord" + (i - 1), "10000000"}}
                     }
                 }
             };

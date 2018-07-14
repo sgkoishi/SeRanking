@@ -58,6 +58,12 @@ namespace Chireiden.SEconomy.Ranking
                 !config.ClassSelectCommand.Contains(" ")
                     ? config.ClassSelectCommand
                     : throw new ArgumentException("Command contains space")));
+            Commands.ChatCommands.Add(new Command("tshock.superadmin", InitDefault,"isr"));
+        }
+
+        private void InitDefault(CommandArgs args)
+        {
+            TShock.Groups.AddPermissions("default", new List<string> {"seconomy.world.mobgains"});
         }
 
         private static readonly Dictionary<string, Level> Levels = new Dictionary<string, Level>();
@@ -205,6 +211,8 @@ namespace Chireiden.SEconomy.Ranking
                 }
 
                 TShock.Groups.AddGroup(nextLevel, tsPlayer.Group.Name, "", level.ChatColor);
+                TShock.Groups.UpdateGroup(nextLevel, tsPlayer.Group.Name, "", level.ChatColor, level.Suffix,
+                    level.Prefix);
                 foreach (var valueAllowedItem in level.AllowedItems)
                 {
                     var itembanName = Terraria.Lang.GetItemNameValue(valueAllowedItem);
@@ -254,6 +262,17 @@ namespace Chireiden.SEconomy.Ranking
             newLevel.LevelUpCommand.ForEach(f => PLI(TSPlayer.Server, f));
             newLevel.LevelUpInvoke.ForEach(f => PLI(p, f));
             return true;
+        }
+
+        private static string ParseCommand(TSPlayer p, Level nl, Level ol, string s)
+        {
+            var playerAccount = SEconomyPlugin.Instance.GetBankAccount(p);
+            if (playerAccount == null || playerAccount.IsAccountEnabled == false)
+            {
+                return string.Format(s, ol.DisplayName, nl?.DisplayName ?? "", "");
+            }
+
+            return string.Format(s, p.Name, ol.DisplayName, nl.DisplayName, playerAccount.Balance);
         }
 
         private static string InfoPlayer(TSPlayer p, Level nl, Level ol, string s)
