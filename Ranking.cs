@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 using Terraria;
 using TerrariaApi.Server;
 using TShockAPI;
-using TShockAPI.DB;
 using TShockAPI.Hooks;
 using Wolfje.Plugins.SEconomy;
 
@@ -290,10 +289,11 @@ namespace Chireiden.SEconomy.Ranking
             var playerAccount = SEconomyPlugin.Instance.GetBankAccount(p);
             if (playerAccount == null || playerAccount.IsAccountEnabled == false)
             {
-                return string.Format(s, p.Name, ol.DisplayName, nl?.DisplayName ?? "", "");
+                return string.Format(s, p.Name, ol.DisplayName, nl?.DisplayName, null, null);
             }
 
-            return string.Format(s, p.Name, ol.DisplayName, nl.DisplayName, playerAccount.Balance);
+            return string.Format(s, p.Name, ol.DisplayName, nl.DisplayName, nl.Parents[ol.TsGroup],
+                playerAccount.Balance);
         }
 
         /// <summary>
