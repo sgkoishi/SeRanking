@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Terraria;
 using TerrariaApi.Server;
 using TShockAPI;
+using TShockAPI.DB;
 using TShockAPI.Hooks;
 using Wolfje.Plugins.SEconomy;
 
@@ -275,8 +276,7 @@ namespace Chireiden.SEconomy.Ranking
                 currentGroupName[0] = newLevel.TsGroup + "_" + currentGroupName[0];
             }
 
-            var nextLevel = string.Join("_", currentGroupName);
-            p.Group = TShock.Groups.GetGroupByName(nextLevel);
+            TShock.Users.SetUserGroup(p.User, string.Join("_", currentGroupName));
             newLevel.LevelUpCommand.ForEach(f => Pli(TSPlayer.Server, ParseCommand(p, newLevel, oldLevel, f)));
             newLevel.LevelUpInvoke.ForEach(f => Pli(p, ParseCommand(p, newLevel, oldLevel, f)));
             return true;
@@ -310,6 +310,8 @@ namespace Chireiden.SEconomy.Ranking
             return string.Format(s, ol.DisplayName, nl?.DisplayName ?? "", playerAccount.Balance);
         }
 
+        private static MethodInfo ParseParameters = typeof(Commands)
+            .GetMethod("ParseParameters", BindingFlags.NonPublic | BindingFlags.Static);
         /// <summary>
         ///     Permission less invoke, force a player to run command and bypass the permission check by TShock
         /// </summary>
@@ -323,9 +325,7 @@ namespace Chireiden.SEconomy.Ranking
                 return;
             }
 
-            var args = (List<string>) typeof(Commands)
-                .GetMethod("ParseParameters", BindingFlags.NonPublic | BindingFlags.Static)
-                ?.Invoke(null, new object[] {text.Remove(0, 1)});
+            var args = (List<string>) ParseParameters?.Invoke(null, new object[] {text.Remove(0, 1)});
             if (args == null || args.Count < 1)
             {
                 return;
